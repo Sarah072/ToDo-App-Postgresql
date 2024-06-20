@@ -5,7 +5,7 @@ import { IoIosArrowUp } from 'react-icons/io';
 import { IoIosArrowDown } from 'react-icons/io';
 import { RxDragHandleDots2 } from 'react-icons/rx';
 import myImg from './assets/dp.png';
-import axios from 'axios';
+import api from './axiosConfig';
 
 const TodoApp = () => {
     const [dropDown, setDropDown] = useState(false);
@@ -41,7 +41,7 @@ const TodoApp = () => {
         setList(updatedList);
     
       try {
-        const response = await axios.post('http://localhost:5000/api/tasks/updateTasks', {
+        const response = await api.post('/api/tasks/updateTasks', {
           task: task,
           completed: updatedList.find((item) => item.task === task).completed, 
         });
@@ -60,7 +60,7 @@ const TodoApp = () => {
     const AddTask = async() => {
       if (taskInput.trim() !== '') {
         try {
-          const response = await axios.post('http://localhost:5000/api/tasks/createTasks', {
+          const response = await api.post('/api/tasks/createTasks', {
             task: taskInput,
             completed: false,
           });
@@ -78,7 +78,7 @@ const TodoApp = () => {
   
     const deleteTask = async(taskToDelete) => {
       try {
-        const response = await axios.post('http://localhost:5000/api/tasks/deleteTasks', {
+        const response = await api.post('/api/tasks/deleteTasks', {
           task: taskToDelete,
         
         });
@@ -95,7 +95,7 @@ const TodoApp = () => {
 
     const fetchTasks = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/tasks/getTasks');
+        const response = await api.get('/api/tasks/getTasks');
         const tasksWithCompleted = response.data.map((task) => ({
           task: task.task,
           completed: task.completed || false, 

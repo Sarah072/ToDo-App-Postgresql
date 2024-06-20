@@ -2,19 +2,19 @@ const express = require('express');
 const cors = require('cors');
 const connectDB = require('./configDB/db');
 const taskRoutes = require('./routes/taskRoute');
+require('dotenv').config();
 
 const app = express();
 
 app.use(express.json());
 app.use(cors({
     origin: true,
-    credentials: true, // Allow cookies to be sent
+    credentials: true, 
   }));
 
 
 connectDB();
 
-// Routes
 app.use('/api/tasks', taskRoutes);
 
 const PORT = process.env.PORT || 5000;
