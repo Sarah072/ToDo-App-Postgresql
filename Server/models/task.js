@@ -1,32 +1,26 @@
-const mongoose = require('mongoose');
+const { DataTypes } = require('sequelize');
+const { sequelize } = require('../configDB/db'); 
 
-const taskSchema = new mongoose.Schema({
+const userTask = sequelize.define('userTask', {
   task: {
-    type: String,
-    required: true
+    type: DataTypes.STRING,
+    allowNull: false,
   },
   completed: {
-    type: Boolean,
-    required: true,
-   
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
   },
   completedTime: {
-    type: Date,
+    type: DataTypes.DATE,
+    allowNull: true,
   },
   creationTime: {
-    type: Date,
-    default: Date.now
-  }
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW,
+  },
+}, {
+  timestamps: false,
 });
 
-// Pre-save hook to set completedTime if completed is true
-taskSchema.pre('save', function(next) {
-    if (this.completed && !this.completedTime) {
-      this.completedTime = new Date();
-    }
-    next();
-  });
+module.exports = userTask;
 
-const Task = mongoose.model('Task', taskSchema);
-
-module.exports = Task;
